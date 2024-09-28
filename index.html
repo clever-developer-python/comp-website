@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olympics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+   <style>
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-image: url("SiteBackground.png");
+    color: white;
+}
+
+.hero-section {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden; /* Prevent overflow from video */
+}
+
+.background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 1; /* Behind the overlay */
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Black overlay with opacity */
+    z-index: 2; /* Above the video */
+}
+
+.overlay2{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black overlay with opacity */
+    z-index: 2; /* Above the video */
+}
+
+.button {
+    background-color: orange;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: orangered;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.hero-image {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: 10px;
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+    transition: transform 0.5s ease; /* Smooth transition for rotation */
+    z-index: 3; /* Ensure it's above the overlay */
+    position: relative; /* Ensure it's in the normal document flow */
+}
+
+
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    position: relative; /* Ensure content is above the overlay */
+    z-index: 3; /* Above the overlay */
+}
+
+.row.align-items-center {
+    display: flex;
+    align-items: stretch;
+}
+
+.arrow-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white; /* Background color for visibility */
+    animation: bounce 1s infinite;
+    cursor: pointer;
+    z-index: 4; /* Ensure it's above the overlay */
+}
+
+
+.arrow {
+    width: 16px;
+    fill: black;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+.tesla-section {
+    min-height: 100vh;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    padding: 4rem 0;
+    position: relative;
+    z-index: 3;
+}
+
+.tesla-section .arrow-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tesla-section.visible {
+    opacity: 1;
+}
+
+.tesla-content {
+    background-color: none;
+    padding: 3rem;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    position: relative;
+    z-index: 3;
+}
+
+.tesla-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+    transition: transform 0.5s ease; /* Smooth transition for rotation */
+    perspective: 1000px; /* Enable 3D perspective */
+    position: relative;
+    z-index: 3;
+}
+
+.tesla-image:hover {
+    transform: rotateY(20deg) rotateX(10deg); /* 3D rotation on hover */
+}
+
+h1, h2, h3 {
+    animation: popIn 0.5s ease forwards;
+}
+
+h2 {
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+p {
+    font-size: 1.2rem;
+    animation: float 5s ease-in-out infinite; /* Floating effect for paragraph */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translatey(0);
+    }
+    50% {
+        transform: translatey(-10px); /* Decreased float height */
+    }
+}
+
+.countries-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Adjusted for quicker visibility */
+    background-image: url("SiteBackground.png");
+    color: whitesmoke;
+    position: relative;
+}
+
+.countries-section.visible {
+    opacity: 1;
+}
+
+.pedestal {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.podium {
+    width: 150px;
+    text-align: center;
+    position: relative;
+    margin: 0 10px;
+}
+
+.podium-top {
+    background-color: #FFD700;
+    height: 110px;
+    position: relative;
+}
+
+.podium-middle {
+    background-color: #C0C0C0;
+    height: 90px;
+    position: relative;
+}
+
+.podium-bottom {
+    background-color: #CD7F32;
+    height: 80px;
+    position: relative;
+}
+
+.country-name {
+    padding: 10px;
+    font-weight: bold;
+}
+
+.podium-number {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.countries-list {
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+.countries-list li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flag {
+    width: 30px;
+    height: auto;
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .arrow-container {
+        bottom: 20px;
+    }
+}
+
+@media (min-width: 769px) {
+    .arrow-container {
+        bottom: 20px;
+    }
+}
+
+/* Styles for the pop-up */
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.country-item {
+    cursor: pointer;
+    transition: opacity 0.2s; /* Shortened for quicker visibility */
+    opacity: 0; /* Set to initially hidden */
+    animation: fadeIn 0.2s forwards; /* Shortened fade-in */
+}
+
+.country-item:hover {
+    text-decoration: underline;
+}
+
+.athletes-section {
+    padding: 20px;
+}
+
+.athlete-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.athlete-item:hover {
+    background-color: #e9e9e9; /* Highlight on hover */
+}
+
+.card{
+    color: white;
+    background-color: black;
+}
+
+.card:hover{
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+
+.olympics-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This makes the section full height of the viewport */
+    text-align: center;
+}
+
+.olympics-section h3 {
+    margin-bottom: 1rem;
+}
+
+.olympics-section {
+    justify-content: center;
+    padding-bottom: 10vh; /* Pushes the content up by 10% of the viewport height */
+}
+
+.nav-link{
+    color: white;
+}
+
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a style="color: white;" class="navbar-brand" href="#">Olympics</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a style="color: white;" class="nav-link" href="/">By Ninaad Ravi And Akshaj kumar Govindu</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <video autoplay muted loop class="background-video">
+            <div class="overlay"></div>
+            <source src="rec.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="hero-content">
+                        <h1 class="display-4 fw-bold" style="color: white;">Welcome to Paris Olympics 2024!</h1>
+                        <p class="lead" style="color: white;">Welcome to Paris Olympics 2024. This website was designed by Akshaj kumar Govindu and programmed by Ninaad Ravi. This detailed and beautiful website will tell you everything you need to know about the Paris Olympics.</p>
+                        <div>
+                            <button class="btn button btn-lg" id="btn">Learn more</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="img.jpeg" alt="Chat with friends" class="hero-image img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+        <div class="arrow-container">
+            <svg class="arrow" xmlns="http://www.w3.org/2000/svg" id="arrow1" viewBox="0 0 24 24">
+                <path d="M12 2L12 22M12 22l-5-5m5 5l5-5" stroke="black" stroke-width="2" fill="none" />
+            </svg>
+        </div>
+    </div>
+    <br>
+
+    <div class="tesla-section" id="teslaSection">
+        <video autoplay muted loop class="background-video">
+            <source src="paris.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="container">
+            <div class="overlay2"></div>
+            <div class="row tesla-content">
+                <div class="col-lg-6">
+                    <img src="drone.png" alt="Paris Olympics" class="tesla-image img-fluid">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="text-danger">Information</h2>
+                    <h3>Paris, France</h3>
+                    <p>The 2024 Summer Olympics, officially known as the Games of the XXXIII Olympiad, took place in Paris, France, from July 26 to August 11, 2024. This marks the third time Paris has hosted the Olympics, having previously done so in 1900 and 1924. With a commitment to sustainability and innovation, the Paris Games will feature events held at iconic venues, including the Stade de France and the historic Seine River. Athletes from around the globe will compete for glory, fostering a spirit of excellence and international unity.</p>
+                    <p>The Paris 2024 Olympics aim to leave a lasting legacy in the city, promoting sports and wellness for future generations.</p>
+                    <p><a href="https://en.wikipedia.org/wiki/Paris" style="text-decoration: none;">If you want to learn more about paris just click this sentence</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="arrow-container">
+            <svg class="arrow" xmlns="http://www.w3.org/2000/svg" id="arrow2" viewBox="0 0 24 24">
+                <path d="M12 2L12 22M12 22l-5-5m5 5l5-5" stroke="black" stroke-width="2" fill="none" />
+            </svg>
+        </div>
+    </div>
+
+    <div class="countries-section hidden" id="countriesSection">
+        <div class="container">
+            <h2 class="text-center mb-4">Winner Countries</h2>
+            <br>
+            <div class="pedestal">
+                <div class="podium">
+                    <div class="podium-top country-item" data-country="USA">
+                        <img src="https://flagcdn.com/w320/us.png" alt="USA" class="flag" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%);">
+                        <div class="country-name">USA</div>
+                        <div class="podium-number">1</div>
+                    </div>
+                </div>
+                <div class="podium">
+                    <div class="podium-middle country-item" data-country="China">
+                        <img src="https://flagcdn.com/w320/cn.png" alt="China" class="flag" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%);">
+                        <div class="country-name">China</div>
+                        <div class="podium-number">2</div>
+                    </div>
+                </div>
+                <div class="podium">
+                    <div class="podium-bottom country-item" data-country="Japan">
+                        <img src="https://flagcdn.com/w320/jp.png" alt="Japan" class="flag" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%);">
+                        <div class="country-name">Japan</div>
+                        <div class="podium-number">3</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h3 class="text-center mb-3">Participating Countries</h3>
+            <br>
+            <ul class="countries-list">
+                <li class="country-item" data-country="Afghanistan"><img src="https://flagcdn.com/w320/af.png" alt="Afghanistan" class="flag">Afghanistan</li>
+            <li class="country-item" data-country="Albania"><img src="https://flagcdn.com/w320/al.png" alt="Albania" class="flag">Albania</li>
+            <li class="country-item" data-country="Algeria"><img src="https://flagcdn.com/w320/dz.png" alt="Algeria" class="flag">Algeria</li>
+            <li class="country-item" data-country="Andorra"><img src="https://flagcdn.com/w320/ad.png" alt="Andorra" class="flag">Andorra</li>
+            <li class="country-item" data-country="Argentina"><img src="https://flagcdn.com/w320/ar.png" alt="Argentina" class="flag">Argentina</li>
+            <li class="country-item" data-country="Armenia"><img src="https://flagcdn.com/w320/am.png" alt="Armenia" class="flag">Armenia</li>
+            <li class="country-item" data-country="Australia"><img src="https://flagcdn.com/w320/au.png" alt="Australia" class="flag">Australia</li>
+            <li class="country-item" data-country="Austria"><img src="https://flagcdn.com/w320/at.png" alt="Austria" class="flag">Austria</li>
+            <li class="country-item" data-country="Azerbaijan"><img src="https://flagcdn.com/w320/az.png" alt="Azerbaijan" class="flag">Azerbaijan</li>
+            <li class="country-item" data-country="Bahrain"><img src="https://flagcdn.com/w320/bh.png" alt="Bahrain" class="flag">Bahrain</li>
+            <li class="country-item" data-country="Belgium"><img src="https://flagcdn.com/w320/be.png" alt="Belgium" class="flag">Belgium</li>
+            <li class="country-item" data-country="Bermuda"><img src="https://flagcdn.com/w320/bm.png" alt="Bermuda" class="flag">Bermuda</li>
+            <li class="country-item" data-country="Brazil"><img src="https://flagcdn.com/w320/br.png" alt="Brazil" class="flag">Brazil</li>
+            <li class="country-item" data-country="Canada"><img src="https://flagcdn.com/w320/ca.png" alt="Canada" class="flag">Canada</li>
+            <li class="country-item" data-country="China"><img src="https://flagcdn.com/w320/cn.png" alt="China" class="flag">China</li>
+            <li class="country-item" data-country="Colombia"><img src="https://flagcdn.com/w320/co.png" alt="Colombia" class="flag">Colombia</li>
+            <li class="country-item" data-country="Croatia"><img src="https://flagcdn.com/w320/hr.png" alt="Croatia" class="flag">Croatia</li>
+            <li class="country-item" data-country="Cuba"><img src="https://flagcdn.com/w320/cu.png" alt="Cuba" class="flag">Cuba</li>
+            <li class="country-item" data-country="Czech Republic"><img src="https://flagcdn.com/w320/cz.png" alt="Czech Republic" class="flag">Czech Republic</li>
+            <li class="country-item" data-country="Denmark"><img src="https://flagcdn.com/w320/dk.png" alt="Denmark" class="flag">Denmark</li>
+            <li class="country-item" data-country="Dominican Republic"><img src="https://flagcdn.com/w320/do.png" alt="Dominican Republic" class="flag">Dominican Republic</li>
+            <li class="country-item" data-country="Egypt"><img src="https://flagcdn.com/w320/eg.png" alt="Egypt" class="flag">Egypt</li>
+            <li class="country-item" data-country="Estonia"><img src="https://flagcdn.com/w320/ee.png" alt="Estonia" class="flag">Estonia</li>
+            <li class="country-item" data-country="Fiji"><img src="https://flagcdn.com/w320/fj.png" alt="Fiji" class="flag">Fiji</li>
+            <li class="country-item" data-country="France"><img src="https://flagcdn.com/w320/fr.png" alt="France" class="flag">France</li>
+            <li class="country-item" data-country="Germany"><img src="https://flagcdn.com/w320/de.png" alt="Germany" class="flag">Germany</li>
+            <li class="country-item" data-country="Great Britain"><img src="https://flagcdn.com/w320/gb.png" alt="Great Britain" class="flag">Great Britain</li>
+            <li class="country-item" data-country="Greece"><img src="https://flagcdn.com/w320/gr.png" alt="Greece" class="flag">Greece</li>
+            <li class="country-item" data-country="Hungary"><img src="https://flagcdn.com/w320/hu.png" alt="Hungary" class="flag">Hungary</li>
+            <li class="country-item" data-country="Ireland"><img src="https://flagcdn.com/w320/ie.png" alt="Ireland" class="flag">Ireland</li>
+            <li class="country-item" data-country="Israel"><img src="https://flagcdn.com/w320/il.png" alt="Israel" class="flag">Israel</li>
+            <li class="country-item" data-country="Italy"><img src="https://flagcdn.com/w320/it.png" alt="Italy" class="flag">Italy</li>
+            <li class="country-item" data-country="Jamaica"><img src="https://flagcdn.com/w320/jm.png" alt="Jamaica" class="flag">Jamaica</li>
+            <li class="country-item" data-country="Japan"><img src="https://flagcdn.com/w320/jp.png" alt="Japan" class="flag">Japan</li>
+            <li class="country-item" data-country="Jordan"><img src="https://flagcdn.com/w320/jo.png" alt="Jordan" class="flag">Jordan</li>
+            <li class="country-item" data-country="Kenya"><img src="https://flagcdn.com/w320/ke.png" alt="Kenya" class="flag">Kenya</li>
+            <li class="country-item" data-country="Kyrgyzstan"><img src="https://flagcdn.com/w320/kg.png" alt="Kyrgyzstan" class="flag">Kyrgyzstan</li>
+            <li class="country-item" data-country="Latvia"><img src="https://flagcdn.com/w320/lv.png" alt="Latvia" class="flag">Latvia</li>
+            <li class="country-item" data-country="Lithuania"><img src="https://flagcdn.com/w320/lt.png" alt="Lithuania" class="flag">Lithuania</li>
+            <li class="country-item" data-country="Malaysia"><img src="https://flagcdn.com/w320/my.png" alt="Malaysia" class="flag">Malaysia</li>
+            <li class="country-item" data-country="Mongolia"><img src="https://flagcdn.com/w320/mn.png" alt="Mongolia" class="flag">Mongolia</li>
+            <li class="country-item" data-country="Morocco"><img src="https://flagcdn.com/w320/ma.png" alt="Morocco" class="flag">Morocco</li>
+            <li class="country-item" data-country="Netherlands"><img src="https://flagcdn.com/w320/nl.png" alt="Netherlands" class="flag">Netherlands</li>
+            <li class="country-item" data-country="New Zealand"><img src="https://flagcdn.com/w320/nz.png" alt="New Zealand" class="flag">New Zealand</li>
+            <li class="country-item" data-country="Nigeria"><img src="https://flagcdn.com/w320/ng.png" alt="Nigeria" class="flag">Nigeria</li>
+            <li class="country-item" data-country="Poland"><img src="https://flagcdn.com/w320/pl.png" alt="Poland" class="flag">Poland</li>
+            <li class="country-item" data-country="Portugal"><img src="https://flagcdn.com/w320/pt.png" alt="Portugal" class="flag">Portugal</li>
+            <li class="country-item" data-country="Puerto Rico"><img src="https://flagcdn.com/w320/pr.png" alt="Puerto Rico" class="flag">Puerto Rico</li>
+            <li class="country-item" data-country="Romania"><img src="https://flagcdn.com/w320/ro.png" alt="Romania" class="flag">Romania</li>
+            <li class="country-item" data-country="San Marino"><img src="https://flagcdn.com/w320/sm.png" alt="San Marino" class="flag">San Marino</li>
+            <li class="country-item" data-country="Saudi Arabia"><img src="https://flagcdn.com/w320/sa.png" alt="Saudi Arabia" class="flag">Saudi Arabia</li>
+            <li class="country-item" data-country="South Africa"><img src="https://flagcdn.com/w320/za.png" alt="South Africa" class="flag">South Africa</li>
+            <li class="country-item" data-country="South Korea"><img src="https://flagcdn.com/w320/kr.png" alt="South Korea" class="flag">South Korea</li>
+            <li class="country-item" data-country="Spain"><img src="https://flagcdn.com/w320/es.png" alt="Spain" class="flag">Spain</li>
+            <li class="country-item" data-country="Sweden"><img src="https://flagcdn.com/w320/se.png" alt="Sweden" class="flag">Sweden</li>
+            <li class="country-item" data-country="Switzerland"><img src="https://flagcdn.com/w320/ch.png" alt="Switzerland" class="flag">Switzerland</li>
+            <li class="country-item" data-country="Thailand"><img src="https://flagcdn.com/w320/th.png" alt="Thailand" class="flag">Thailand</li>
+            <li class="country-item" data-country="Uganda"><img src="https://flagcdn.com/w320/ug.png" alt="Uganda" class="flag">Uganda</li>
+            <li class="country-item" data-country="Ukraine"><img src="https://flagcdn.com/w320/ua.png" alt="Ukraine" class="flag">Ukraine</li>
+            <li class="country-item" data-country="USA"><img src="https://flagcdn.com/w320/us.png" alt="USA" class="flag">USA</li>
+            <li class="country-item" data-country="Venezuela"><img src="https://flagcdn.com/w320/ve.png" alt="Venezuela" class="flag">Venezuela</li>
+                <!-- Add more countries as needed -->
+            </ul>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <center><h5>Click on the countries to see their medals and info!</h5></center>
+
+        <div class="arrow-container">
+            <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="arrow3">
+                <path d="M12 2L12 22M12 22l-5-5m5 5l5-5" stroke="black" stroke-width="2" fill="none" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Pop-up -->
+    <div id="countryPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2 id="popupCountryName"></h2>
+            <p id="popupParticipants"></p>
+            <p id="popupMedals"></p>
+            <p id="popupLocation"></p>
+        </div>
+    </div>
+
+    <div id="athletesSection" style="background-image: url(SiteBackground.png); color: black;" class="athletes-section hidden">
+        <center><h2>Athletes</h2></center>
+        <br>
+        <div class="container">
+            <div id="athleteCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" id="athlete-list"></div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#athleteCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#athleteCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Athlete Profile Pop-up -->
+    <div id="athletePopup" class="popup" style="color: black;">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <img id="popupAthleteImage" src="" alt="Athlete Image" style="width: 200px; height: 200px; object-fit: cover;">
+            <h2 id="popupAthleteName"></h2>
+            <p id="popupAthleteSport"></p>
+            <p id="popupAthleteCountry"></p>
+            <p id="popupAthleteAchievements"></p>
+        </div>
+    </div>
+
+    <div id="worldRecordsSection" style="background-image: url(SiteBackground.png); color: white;" class="world-records-section">
+        <div class="container">
+            <div id="worldRecordsSection" class="world-records-section">
+                <video autoplay muted loop class="background-video">
+                    <source src="records.mov" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="overlay"></div>
+                <div class="container">
+                    <br>
+                    <br>
+                    <center><h2 class="section-title mb-5">Records Crushed in Paris 🇫🇷</h2></center>
+                    <center><h6>List of all the records broken in olympics of 2024 🚀</h6></center>
+                    <br>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                        <div class="col">
+                            <div class="card">
+                                <img src="dupe.jpeg" class="card-img-top" alt="Usain Bolt">
+                                <div class="card-body">
+                                    <h5 class="card-title">Mens pole vault</h5>
+                                    <p class="card-text">Armand Duplantis (Sweden) broke his own world record with a jump of 6.25 meters.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="wrl.webp" class="card-img-top" alt="Allyson Felix">
+                                <div class="card-body">
+                                    <h5 class="card-title">Women's 400m hurdles</h5>
+                                    <p class="card-text">Sydney McLaughlin-Levrone (USA) set a new world record in the final</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="finke.jpeg" class="card-img-top" alt="Armand Duplantis">
+                                <div class="card-body">
+                                    <h5 class="card-title">Men's 1500m freestyle</h5>
+                                    <p class="card-text">Bobby Finke (USA) set a new world record in the final.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="porec.jpeg" class="card-img-top" alt="Yulimar Rojas">
+                                <div class="card-body">
+                                    <h5 class="card-title">Womens Speed</h5>
+                                    <p class="card-text">Aleksandra Miroslaw broke her own world record</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="nasar.jpeg" class="card-img-top" alt="Eliud Kipchoge">
+                                <div class="card-body">
+                                    <h5 class="card-title">WeightLifting</h5>
+                                    <p class="card-text">Men's 89kg clean and jerk: Karlos Nasar (Bulgaria) set a new world record</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="mexicorec.jpeg" class="card-img-top" alt="Katie Ledecky">
+                                <div class="card-body">
+                                    <h5 class="card-title">Modern pentathlon</h5>
+                                    <p class="card-text">Laser run: Emiliano Hernandez (Mexico) set a new world record.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="olympics-section">
+                <div class="container" style="background-image: url(aki.png); padding-top: 30px; padding-bottom: 30px;">
+            <center><h2>The Paris Olympic Movement:</h2></center>
+            <center><h2>Championing Unity While Embracing Cultural Diversity</h2></center>
+            <br>
+            <h5>The Paris Olympic Movement exemplifies a commitment to championing unity while embracing cultural diversity. One key step taken 
+            </h5>
+            <h5>to promote this unity is the inclusion of athletes from over 200 nations, fostering a global sense of belonging and camaraderie. Initiatives</h5>
+            <h5> such as the Olympic Truce encourage nations to set aside conflicts during the Games, promoting peace and cooperation. Additionally,</h5>
+            <h5>the introduction of mixed-gender events and support for marginalized communities reflect ongoing efforts to ensure representation </h5>
+            <h5>and inclusivity.
+
+                These measures cultivate mutual respect among diverse cultures and encourage dialogue, creating shared experiences </h5>
+                <h5>that transcend national boundaries. The Olympic Games serve not only as a platform for athletic excellence but also as a celebration </h5>
+                <h5>of human potential, inspiring future generations to embrace diversity and pursue unity in an often divided world.</h5>
+            </div>
+            </div>
+               
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
+
+    <script>
+ window.addEventListener('scroll', function() {
+    var teslaSection = document.getElementById('teslaSection');
+    var countriesSection = document.getElementById('countriesSection');
+    var teslaPosition = teslaSection.getBoundingClientRect().top;
+    var countriesPosition = countriesSection.getBoundingClientRect();
+    var screenPosition = window.innerHeight / 2; // 50% of the screen height
+
+    if (teslaPosition < screenPosition) {
+        teslaSection.classList.add('visible');
+    }
+    
+    if (countriesPosition.top < screenPosition && countriesPosition.bottom < window.innerHeight) {
+        countriesSection.classList.remove('hidden'); // Show the section
+        countriesSection.classList.add('visible'); // Add visible class
+        // Trigger confetti if not already done
+        if (!countriesSection.classList.contains('confetti-triggered')) {
+            countriesSection.classList.add('confetti-triggered');
+            triggerConfetti();
+        }
+    }
+});
+
+document.getElementById('arrow1').addEventListener('click', function() {
+    const targetSection = document.getElementById('teslaSection');
+    targetSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('arrow2').addEventListener('click', function() {
+    const targetSection = document.getElementById('countriesSection');
+    targetSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+
+document.getElementById('arrow3').addEventListener('click', function() {
+    const targetSection = document.getElementById('athletesSection');
+    targetSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('btn').addEventListener('click', function() {
+    const targetSection = document.getElementById('teslaSection');
+    targetSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+function triggerConfetti() {
+    var duration = 2 * 1000; // 2 seconds
+    var animationEnd = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 100,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#bb0000', '#ffffff']
+        });
+        confetti({
+            particleCount: 100,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#bb0000', '#ffffff']
+        });
+
+        if (Date.now() < animationEnd) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
+const countryData = {
+    "USA": { participants: 615, goldMedals: 39, silverMedals: 41, bronzeMedals: 33, location: "North America" },
+    "China": { participants: 406, goldMedals: 38, silverMedals: 32, bronzeMedals: 18, location: "East Asia" },
+    "Japan": { participants: 552, goldMedals: 27, silverMedals: 14, bronzeMedals: 17, location: "East Asia" },
+    "Afghanistan": { participants: 5, goldMedals: 0, silverMedals: 0, bronzeMedals: 0, location: "Central Asia" },
+    "Albania": { participants: 9, goldMedals: 0, silverMedals: 0, bronzeMedals: 0, location: "Southeast Europe" },
+    "Algeria": { participants: 44, goldMedals: 0, silverMedals: 1, bronzeMedals: 1, location: "North Africa" },
+    "Andorra": { participants: 2, goldMedals: 0, silverMedals: 0, bronzeMedals: 0, location: "Southern Europe" },
+    "Argentina": { participants: 178, goldMedals: 0, silverMedals: 1, bronzeMedals: 2, location: "South America" },
+    "Australia": { participants: 472, goldMedals: 17, silverMedals: 7, bronzeMedals: 22, location: "Oceania" },
+    "Austria": { participants: 75, goldMedals: 1, silverMedals: 1, bronzeMedals: 5, location: "Central Europe" },
+    "Belgium": { participants: 121, goldMedals: 3, silverMedals: 1, bronzeMedals: 3, location: "Western Europe" },
+    "Brazil": { participants: 302, goldMedals: 7, silverMedals: 6, bronzeMedals: 8, location: "South America" },
+    "Canada": { participants: 371, goldMedals: 7, silverMedals: 6, bronzeMedals: 11, location: "North America" },
+    "Denmark": { participants: 111, goldMedals: 3, silverMedals: 4, bronzeMedals: 4, location: "Northern Europe" },
+    "Egypt": { participants: 133, goldMedals: 1, silverMedals: 1, bronzeMedals: 4, location: "North Africa" },
+    "France": { participants: 398, goldMedals: 10, silverMedals: 12, bronzeMedals: 11, location: "Western Europe" },
+    "Germany": { participants: 425, goldMedals: 10, silverMedals: 11, bronzeMedals: 16, location: "Central Europe" },
+    "Great Britain": { participants: 376, goldMedals: 22, silverMedals: 21, bronzeMedals: 22, location: "Western Europe" },
+    "Italy": { participants: 384, goldMedals: 10, silverMedals: 10, bronzeMedals: 20, location: "Southern Europe" },
+    "Netherlands": { participants: 278, goldMedals: 10, silverMedals: 12, bronzeMedals: 14, location: "Western Europe" },
+    "South Korea": { participants: 232, goldMedals: 6, silverMedals: 4, bronzeMedals: 10, location: "East Asia" },
+    "Hungary": { participants: 167, goldMedals: 6, silverMedals: 7, bronzeMedals: 7, location: "Central Europe" },
+    "Poland": { participants: 210, goldMedals: 4, silverMedals: 5, bronzeMedals: 5, location: "Central Europe" },
+    "Czech Republic": { participants: 115, goldMedals: 4, silverMedals: 4, bronzeMedals: 3, location: "Central Europe" },
+    "Kenya": { participants: 85, goldMedals: 4, silverMedals: 4, bronzeMedals: 2, location: "East Africa" },
+    "New Zealand": { participants: 211, goldMedals: 7, silverMedals: 6, bronzeMedals: 7, location: "Oceania" },
+    "Cuba": { participants: 69, goldMedals: 7, silverMedals: 3, bronzeMedals: 5, location: "Caribbean" },
+    "Jamaica": { participants: 59, goldMedals: 4, silverMedals: 1, bronzeMedals: 4, location: "Caribbean" },
+    "Croatia": { participants: 58, goldMedals: 3, silverMedals: 3, bronzeMedals: 2, location: "Southeast Europe" },
+    "Spain": { participants: 321, goldMedals: 3, silverMedals: 8, bronzeMedals: 6, location: "Southern Europe" },
+    "Sweden": { participants: 134, goldMedals: 3, silverMedals: 6, bronzeMedals: 0, location: "Northern Europe" },
+    "Switzerland": { participants: 116, goldMedals: 3, silverMedals: 4, bronzeMedals: 6, location: "Central Europe" },
+    "Romania": { participants: 101, goldMedals: 1, silverMedals: 3, bronzeMedals: 0, location: "Southeast Europe" },
+    "Greece": { participants: 83, goldMedals: 2, silverMedals: 1, bronzeMedals: 1, location: "Southern Europe" },
+    "Ukraine": { participants: 158, goldMedals: 1, silverMedals: 6, bronzeMedals: 12, location: "Eastern Europe" },
+    "Uganda": { participants: 25, goldMedals: 2, silverMedals: 1, bronzeMedals: 1, location: "East Africa" },
+    "Ireland": { participants: 116, goldMedals: 2, silverMedals: 0, bronzeMedals: 2, location: "Western Europe" },
+    "Israel": { participants: 90, goldMedals: 2, silverMedals: 0, bronzeMedals: 2, location: "Middle East" },
+    "Estonia": { participants: 33, goldMedals: 1, silverMedals: 0, bronzeMedals: 1, location: "Northern Europe" },
+    "Fiji": { participants: 32, goldMedals: 1, silverMedals: 0, bronzeMedals: 1, location: "Oceania" },
+    "Latvia": { participants: 33, goldMedals: 1, silverMedals: 0, bronzeMedals: 1, location: "Northern Europe" },
+    "Thailand": { participants: 41, goldMedals: 1, silverMedals: 0, bronzeMedals: 1, location: "Southeast Asia" },
+    "Bermuda": { participants: 2, goldMedals: 1, silverMedals: 0, bronzeMedals: 0, location: "North America" },
+    "Morocco": { participants: 48, goldMedals: 1, silverMedals: 0, bronzeMedals: 0, location: "North Africa" },
+    "Puerto Rico": { participants: 37, goldMedals: 1, silverMedals: 0, bronzeMedals: 0, location: "Caribbean" },
+    "Colombia": { participants: 71, goldMedals: 0, silverMedals: 4, bronzeMedals: 1, location: "South America" },
+    "Azerbaijan": { participants: 44, goldMedals: 0, silverMedals: 3, bronzeMedals: 4, location: "Western Asia" },
+    "Dominican Republic": { participants: 65, goldMedals: 0, silverMedals: 3, bronzeMedals: 2, location: "Caribbean" },
+    "Armenia": { participants: 17, goldMedals: 0, silverMedals: 2, bronzeMedals: 2, location: "Western Asia" },
+    "Kyrgyzstan": { participants: 16, goldMedals: 0, silverMedals: 2, bronzeMedals: 1, location: "Central Asia" },
+    "Mongolia": { participants: 43, goldMedals: 0, silverMedals: 1, bronzeMedals: 3, location: "East Asia" },
+    "Argentina": { participants: 178, goldMedals: 0, silverMedals: 1, bronzeMedals: 2, location: "South America" },
+    "San Marino": { participants: 5, goldMedals: 0, silverMedals: 1, bronzeMedals: 2, location: "Southern Europe" },
+    "Jordan": { participants: 14, goldMedals: 0, silverMedals: 1, bronzeMedals: 1, location: "Middle East" },
+    "Malaysia": { participants: 30, goldMedals: 0, silverMedals: 1, bronzeMedals: 1, location: "Southeast Asia" },
+    "Nigeria": { participants: 55, goldMedals: 0, silverMedals: 1, bronzeMedals: 1, location: "West Africa" },
+    "Bahrain": { participants: 31, goldMedals: 0, silverMedals: 1, bronzeMedals: 0, location: "Middle East" },
+    "Saudi Arabia": { participants: 33, goldMedals: 0, silverMedals: 1, bronzeMedals: 0, location: "Middle East" },
+    "Lithuania": { participants: 42, goldMedals: 0, silverMedals: 1, bronzeMedals: 0, location: "Northern Europe" },
+    "Portugal": { participants: 92, goldMedals: 1, silverMedals: 1, bronzeMedals: 2, location: "Southern Europe" },
+    "South Africa": { participants: 185, goldMedals: 1, silverMedals: 2, bronzeMedals: 0, location: "Southern Africa" },
+    "Venezuela": { participants: 43, goldMedals: 1, silverMedals: 3, bronzeMedals: 0, location: "South America" }
+};
+
+var popup = document.getElementById("countryPopup");
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+    popup.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == popup) {
+        popup.style.display = "none";
+    }
+}
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        popup.style.display = "none";
+    }
+});
+
+document.querySelectorAll('.country-item').forEach(item => {
+    item.addEventListener('click', function() {
+        const country = this.getAttribute('data-country');
+        const data = countryData[country];
+        if (data) {
+            document.getElementById('popupCountryName').textContent = country;
+            document.getElementById('popupParticipants').textContent = `Participants: ${data.participants}`;
+            document.getElementById('popupMedals').textContent = `Medals: Gold - ${data.goldMedals}, Silver - ${data.silverMedals}, Bronze - ${data.bronzeMedals}`;
+            document.getElementById('popupLocation').textContent = `Location: ${data.location}`;
+            popup.style.display = "block";
+        }
+    });
+});
+
+const video = document.querySelector('.background-video');
+
+video.addEventListener('loadedmetadata', function() {
+    this.currentTime = 5; // Start from the beginning
+    this.play(); // Play the video
+});
+
+video.addEventListener('timeupdate', function() {
+    if (this.currentTime >= 40) {
+        this.pause(); // Pause the video after 14 seconds
+        this.currentTime = 0; // Reset to the beginning
+        this.play(); // Play again
+    }
+});
+
+
+
+function rb() {
+    console.log("hello world")
+}
+
+
+const athletes = [
+    { name: 'Simone Biles', sport: 'Gymnastics', country: 'USA', image: 'siome.webp', achievements: '7-time Olympic medalist' },
+    { name: 'Caeleb Dressel', sport: 'Swimming', country: 'USA', image: 'caleb.jpeg', achievements: '5-time Olympic gold medalist' },
+    { name: 'Karsten Warholm', sport: 'Track and Field', country: 'Norway', image: 'karsten.avif', achievements: 'World Record holder in 400m hurdles' },
+    { name: 'Katie Ledecky', sport: 'Swimming', country: 'USA', image: 'katie.jpeg', achievements: '7-time Olympic gold medalist' },
+    { name: 'Eliud Kipchoge', sport: 'Marathon', country: 'Kenya', image: 'eluid.webp', achievements: '2-time Olympic gold medalist' },
+    { name: 'Neeraj Chopra', sport: 'Javelin Throw', country: 'India', image: 'chopra.jpeg', achievements: 'Olympic gold medalist' },
+    { name: 'Allyson Felix', sport: 'Track and Field', country: 'USA', image: 'felix.jpeg', achievements: '11-time Olympic medalist' },
+    { name: 'Armand Duplantis', sport: 'Pole Vault', country: 'Sweden', image: 'mondo.jpeg', achievements: 'World Record holder' },
+    { name: 'Yulimar Rojas', sport: 'Triple Jump', country: 'Venezuela', image: 'rojas.jpeg', achievements: 'World Record holder' },
+    { name: 'Sifan Hassan', sport: 'Track and Field', country: 'Netherlands', image: 'sifan.jpeg', achievements: '3-time Olympic medalist' },
+    { name: 'Mutaz Essa Barshim', sport: 'High Jump', country: 'Qatar', image: 'mutaz.jpeg', achievements: 'Olympic gold medalist' },
+    { name: 'Gianmarco Tamberi', sport: 'High Jump', country: 'Italy', image: 'tamberi.jpeg', achievements: 'Olympic gold medalist' },
+    { name: 'Athing Mu', sport: 'Track and Field', country: 'USA', image: 'mu.jpeg', achievements: '2-time Olympic gold medalist' },
+    { name: 'Andre De Grasse', sport: 'Track and Field', country: 'Canada', image: 'grasse.jpeg', achievements: '6-time Olympic medalist' },
+    { name: 'Rebeca Andrade', sport: 'Gymnastics', country: 'Brazil', image: 'rebbeca.jpeg', achievements: '2-time Olympic medalist' },
+
+]
+
+
+const athleteList = document.getElementById('athlete-list');
+const itemsPerSlide = 5;
+
+for (let i = 0; i < athletes.length; i += itemsPerSlide) {
+    const slideDiv = document.createElement('div');
+    slideDiv.className = `carousel-item ${i === 0 ? 'active' : ''}`;
+    
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'row';
+
+    for (let j = i; j < i + itemsPerSlide && j < athletes.length; j++) {
+        const athlete = athletes[j];
+        const colDiv = document.createElement('div');
+        colDiv.className = 'col';
+        colDiv.innerHTML = `
+            <div class="card athlete-card" style="background-color: black; cursor: pointer;" data-athlete-index="${j}">
+                <img src="${athlete.image}" class="card-img-top" alt="${athlete.name}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">${athlete.name}</h5>
+                </div>
+            </div>
+        `;
+        rowDiv.appendChild(colDiv);
+    }
+
+    slideDiv.appendChild(rowDiv);
+    athleteList.appendChild(slideDiv);
+}
+
+// Athlete Pop-up
+const athletePopup = document.getElementById("athletePopup");
+const athletePopupClose = athletePopup.querySelector(".close");
+
+athletePopupClose.onclick = function() {
+    athletePopup.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == athletePopup) {
+        athletePopup.style.display = "none";
+    }
+}
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        athletePopup.style.display = "none";
+    }
+});
+
+document.querySelectorAll('.athlete-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const athleteIndex = this.getAttribute('data-athlete-index');
+        const athlete = athletes[athleteIndex];
+        
+        document.getElementById('popupAthleteImage').src = athlete.image;
+        document.getElementById('popupAthleteName').textContent = athlete.name;
+        document.getElementById('popupAthleteSport').textContent = `Sport: ${athlete.sport}`;
+        document.getElementById('popupAthleteCountry').textContent = `Country: ${athlete.country}`;
+        document.getElementById('popupAthleteAchievements').textContent = `Achievements: ${athlete.achievements}`;
+        
+        athletePopup.style.display = "block";
+    });
+});
+    </script>
+    
+</body>
+</html>
